@@ -1,0 +1,23 @@
+<div>
+	<table class="table header-fixed table-hover table-condensed table-striped">
+    <thead>
+        <tr>
+            <th class="">Name</th>
+            <th class="">Address</th>
+            <th class="">City</th>
+            <th class="">Location</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="venueItem in venueSearchResults.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+            <td>{{venueItem.name }}</td>
+            <td>{{venueItem.roll }}</td>
+            <td>{{venueItem.subject }}</td>
+            <td>{{venueItem.mark }}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+

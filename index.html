@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- The main page for the Venue Search -->
+<html ng-app="venueSearchApp">
+    <!-- Script dependencies --> 
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    
+    <script src="app/app.js"></script>
+    <script src="dist/venue.explorer.build.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="app/common.css"/>
+
+    <head>
+        <title>Venue Search and Explorer</title>
+    </head>
+
+    <body>
+    <div class="panel" ng-controller="venueExplorerController">
+         <div class="panel-heading" style="max-height: 80px;">
+            
+            <div>
+                <div>
+                    <label>Location search</label>
+                    <br/>
+                </div>
+
+                <form name="searchForm" class="form-inline" ng-submit="submitForm()" novalidate> 
+          
+                    <div class="form-group">
+                        <label class="control-label">Search</label>
+                        <input type="text" name="searchLocation" class="form-control" ng-model="searchLocation" ng-pattern="/^[a-zA-Z\s]*$/" required>
+                    </div>
+                    
+                    <button id="submitButton" class="btn btn-primary" ng-disabled="searchForm.$invalid" onclick="">Search</button>
+                    <br/>
+                    <ng-messages for="searchForm.searchLocation.$error" ng-if="searchForm.searchLocation.$invalid && searchForm.searchLocation.$dirty">
+                        <span class="error"><ng-message when="required" class="error">Location cannot be empty</ng-message></span>
+                        <span class="error"><ng-message when="pattern" class="error">Please input letters only</ng-message></span>
+                    </ng-messages>
+
+                </form>
+            </div>   
+         
+         </div>    
+
+
+        <div class="panel-body" style="max-width: 900px; min-height: 200px; max-height: 200px;">
+            <div>
+                <span>
+                    <select ng-disabled="checkResultsSize()" ng-model="viewby" ng-change="setItemsPerPage(viewby)">
+                        <option ng-selected="true">10</option>
+                        <option>30</option>
+                        <option>50</option>
+                    </select> records
+                </span>            
+            </div>
+
+            <!-- <div class="" ng-view="venueSearchResults"></div> -->
+            <div>
+            {{}}
+                <table class="table header-fixed table-hover table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th class="">Name</th>
+                        <th class="">Address</th>
+                        <th class="">City</th>
+                        <!-- <th class="">Distance</th> -->
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="venueItem in venueSearchResults.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+                        <td>{{venueItem.venue.name }}</td>
+                        <td>{{venueItem.venue.location.address }}</td>
+                        <td>{{venueItem.venue.location.city }}</td>
+                        <!-- <td>{{venueItem.venue.location.distance }}</td> -->
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+        </div>
+
+        <div class="panel-body" style="">
+            <uib-pagination 
+                ng-disabled="checkResultsSize()" 
+                total-items="totalItems" 
+                ng-model="currentPage" 
+                class="pagination-sm" 
+                items-per-page="itemsPerPage">
+            </uib-pagination>  
+            <pager 
+                total-items="totalItems" 
+                ng-model="currentPage" 
+                items-per-page="itemsPerPage">
+            </pager>   
+        </div>
+    </div>
+    </body>
+</html>
